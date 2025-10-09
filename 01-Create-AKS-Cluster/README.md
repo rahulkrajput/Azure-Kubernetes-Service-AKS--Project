@@ -1,14 +1,13 @@
 # Create AKS Cluster
 
-## Step-01: Introduction
+## To-Do List
 - Create Azure AKS Cluster
-- Connect to Azure AKS Cluster using Azure Cloud Shell
-- Explore Azure AKS Cluster Resources using kubectl cli and Azure Portal
 - Install Azure CLI, kubectl CLI on local desktop and connect to Azure AKS Cluster using Azure CLI from local desktop
-- Deploy Sample Application on AKS Cluster and test
-- Clean-up Kubernetes resources deployed as part of this demo
+- Explore Azure AKS Cluster Resources using kubectl cli and Azure Portal
+- Deploy Application on AKS Cluster and test
+- Delete Kubernetes resources deployed as part of this project
 
-## Step-02: Create AKS Cluster
+## Step-01: Create AKS Cluster
 - Create Kubernetes Cluster
 ### Basics
 - **Subscription:** Your-Paid-Subscription
@@ -68,7 +67,7 @@
   - Click on **Create**
 
 
-## Step-03: Explore the AKS cluster on Azure Management Console
+## Step-02: Explore the AKS cluster on Azure Management Console
 - Explore the following features 
   - Overview
   - Kubernetes Resources
@@ -78,7 +77,7 @@
 
 
 
-## Step-04: Local Desktop - Install Azure CLI and Azure AKS CLI
+## Step-03: Local Desktop - Install Azure CLI and Azure AKS CLI
 ```t
 
 The easiest way to install the Azure CLI is through a script maintained by the Azure CLI team. This script runs all installation commands in one step. This script is downloaded via curl and piped directly to bash to install the CLI.
@@ -123,7 +122,7 @@ kubectl get all --all-namespaces
 - https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 - https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest
 
-## Step-05: Deploy Sample Application and Test
+## Step-04: Deploy Sample Application and Test
 ```t
 # Deploy Application
 kubectl apply -f kube-manifests/
@@ -142,8 +141,14 @@ http://<External-IP-from-get-service-output>
 
 ```
 
-## Step-06: Delete Resources
+## Step-05: Delete Resources
 ```t
 # Delete Applications
 kubectl delete -f kube-manifests/
 ```
+## Notes
+
+- **Make sure to replace placeholders (e.g., your-Paid-Subscription, your_cluster_name, your_region, your_resource_group_name...etc) with your actual Configuration.**
+
+- **This is a basic setup for demonstration purposes. In a production environment, you should follow best practices for security and performance.**
+
