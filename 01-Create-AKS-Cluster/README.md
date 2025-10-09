@@ -13,7 +13,7 @@
 - **Subscription:** Your-Paid-Subscription
 - **Resource Group:** Creat New: aks-rg
 - **Cluster preset configuration:** Dev/Test
-- **Kubernetes Cluster Name:** aksdemo  
+- **Kubernetes Cluster Name:** aks-cluster  
 - **Region:** Central India
 - **Fleet Manager:** NONE (LEAVE TO DEFAULT)
 - **Availability zones:** NONE (LEAVE TO DEFAULT)
@@ -101,7 +101,7 @@ kubectl version
 az login
 
 # Configure Cluster Creds (kube config)
-az aks get-credentials --resource-group aks-rg --name aksdemo
+az aks get-credentials --resource-group aks-rg --name aks-cluster
 
 # List AKS Nodes
 kubectl get nodes 
