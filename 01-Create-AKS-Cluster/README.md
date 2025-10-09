@@ -11,11 +11,11 @@
 ## Step-02: Create AKS Cluster
 - Create Kubernetes Cluster
 ### Basics
-- **Subscription:** StackSimplify-Paid-Subscription
-- **Resource Group:** Creat New: aks-rg1
+- **Subscription:** Your-Paid-Subscription
+- **Resource Group:** Creat New: aks-rg
 - **Cluster preset configuration:** Dev/Test
-- **Kubernetes Cluster Name:** aksdemo1  
-- **Region:** (US) East US
+- **Kubernetes Cluster Name:** aksdemo  
+- **Region:** Central India
 - **Fleet Manager:** NONE (LEAVE TO DEFAULT)
 - **Availability zones:** NONE (LEAVE TO DEFAULT)
 - **AKS Pricing Tier:** Free
@@ -30,7 +30,7 @@
   - **Mode:** system (LEAVE TO DEFAULT)
   - **OS SKU:** Ubuntu Linux  (LEAVE TO DEFAULT)
   - **Availability zones:** ZONES 1,2,3 (LEAVE TO DEFAULT)
-  - **Node size:** Standard D2ls v6 (2 vcpus, 4 GiB memory)
+  - **Node size:** Standard_DS2_v2 (2 vcpus, 7 GiB memory)
   - **Scale method:** Autoscale
   - **Minimum node count:** 2
   - **Maximum node count:** 5
@@ -68,41 +68,8 @@
   - Click on **Create**
 
 
-## Step-03: Cloud Shell - Configure kubectl to connect to AKS Cluster
-- Go to https://shell.azure.com
-```t
-# Template
-az aks get-credentials --resource-group <Resource-Group-Name> --name <Cluster-Name>
-
-# Replace Resource Group & Cluster Name
-az aks get-credentials --resource-group aks-rg1 --name aksdemo1
-
-# Get kubectl client version only (shows client version only (no server required))
-kubectl version --client=true
-
-# Get kubectl version (Displays both client CLI and k8s server versions)
-kubectl version 
-
-# List Kubernetes Worker Nodes
-kubectl get nodes 
-kubectl get nodes -o wide
-```
-
-## Step-04: Explore Cluster Control Plane and Workload inside that
-```t
-# List Namespaces
-kubectl get namespaces
-kubectl get ns
-
-# List Pods from all namespaces
-kubectl get pods --all-namespaces
-
-# List all k8s objects from Cluster Control plane
-kubectl get all --all-namespaces
-```
-
-## Step-05: Explore the AKS cluster on Azure Management Console
-- Explore the following features on high-level
+## Step-03: Explore the AKS cluster on Azure Management Console
+- Explore the following features 
   - Overview
   - Kubernetes Resources
   - Settings
@@ -111,10 +78,13 @@ kubectl get all --all-namespaces
 
 
 
-## Step-06: Local Desktop - Install Azure CLI and Azure AKS CLI
+## Step-04: Local Desktop - Install Azure CLI and Azure AKS CLI
 ```t
-# Install Azure CLI (MAC)
-brew update && brew install azure-cli
+
+The easiest way to install the Azure CLI is through a script maintained by the Azure CLI team. This script runs all installation commands in one step. This script is downloaded via curl and piped directly to bash to install the CLI.
+
+# Install Azure CLI (Ubuntu)
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
 # Verify AZ CLI version
 az --version
@@ -132,20 +102,28 @@ kubectl version
 az login
 
 # Configure Cluster Creds (kube config)
-az aks get-credentials --resource-group aks-rg1 --name aksdemo1
+az aks get-credentials --resource-group aks-rg --name aksdemo
 
 # List AKS Nodes
 kubectl get nodes 
 kubectl get nodes -o wide
+
+
+# List Namespaces
+kubectl get namespaces
+kubectl get ns
+
+# List Pods from all namespaces
+kubectl get pods --all-namespaces
+
+# List all k8s objects from Cluster Control plane
+kubectl get all --all-namespaces
 ```
 - **Reference Documentation Links**
 - https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 - https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest
 
-## Step-07: Deploy Sample Application and Test
-- Don't worry about what is present in these two files for now. 
-- By the time we complete **Kubernetes Fundamentals** sections, you will be an expert in writing Kubernetes manifest in YAML.
-- For now just focus on result. 
+## Step-05: Deploy Sample Application and Test
 ```t
 # Deploy Application
 kubectl apply -f kube-manifests/
@@ -162,21 +140,10 @@ kubectl get service
 # Access Application
 http://<External-IP-from-get-service-output>
 
-# Review the Kubernetes Resources in Azure Mgmt Console
-Go to Kubernetes Resources
-1. Namespaces
-2. Workloads
-3. Services and Ingress
 ```
 
-## Step-07: Clean-Up
+## Step-06: Delete Resources
 ```t
 # Delete Applications
 kubectl delete -f kube-manifests/
 ```
-
-## References
-- https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-macos?view=azure-cli-latest
-
-## Why Managed Identity when creating Cluster?
-- https://docs.microsoft.com/en-us/azure/aks/use-managed-identity
