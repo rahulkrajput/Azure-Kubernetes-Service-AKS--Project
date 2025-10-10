@@ -73,7 +73,7 @@ curl -w "\n" http://52.154.217.196/hello
 # Scale UP the demo application to 20 pods
 kubectl get pods
 kubectl get nodes 
-kubectl scale --replicas=20 deploy cluster-autoscaler-demoapp-deployment
+kubectl scale --replicas=20 deploy ca-app-deployment
 kubectl get pods
 
 # Verify nodes
@@ -82,13 +82,13 @@ kubectl get nodes -o wide
 # Access Application
 kubectl get svc
 http://<PublicIP-from-get-svc-output>/hello
-curl -w "\n" http://52.154.217.196/hello
+curl -w "\n" http://<PublicIP-from-get-svc-output>/hello
 ```
 ## Step-05: Cluster Scale DOWN: Scale our application to 1 pod
 - It might take 5 to 20 minutes to cool down and come down to minimum nodes which will be 2 which we configured during nodegroup creation
 ```
 # Scale down the demo application to 1 pod
-kubectl scale --replicas=1 deploy cluster-autoscaler-demoapp-deployment
+kubectl scale --replicas=1 deploy ca-app-deployment
 
 # Verify nodes
 kubectl get nodes -o wide
