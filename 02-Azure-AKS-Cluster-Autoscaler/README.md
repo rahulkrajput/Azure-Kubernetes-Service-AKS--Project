@@ -46,7 +46,7 @@ kubectl config current-context
 
 ## Step-02: We can even enable autoscaling from here on Portal Management console
 ### Cluster: aks-autoscaled-cluster
-- Go to All Services -> Kubernetes Services -> aksdemo2 -> Settings -> Nodepools 
+- Go to All Services -> Kubernetes Services -> aks-autoscaled-cluster -> Settings -> Nodepools 
 - Select Scale
 - Scale Method: Automatic (Nothing but --enable-cluster-autoscaler)
 - Node Count Rage: 1 to 5 (Nothing but what we defined in Min and Max)
@@ -63,7 +63,7 @@ kubectl get pods
 # Access Application
 kubectl get svc
 http://<PublicIP-from-get-svc-output>/hello
-curl -w "\n" http://52.154.217.196/hello
+curl -w "\n" http://<PublicIP-from-get-svc-output>/hello
 ```
 
 ## Step-04: Scale our application to 20 pods
@@ -85,7 +85,7 @@ http://<PublicIP-from-get-svc-output>/hello
 curl -w "\n" http://<PublicIP-from-get-svc-output>/hello
 ```
 ## Step-05: Cluster Scale DOWN: Scale our application to 1 pod
-- It might take 5 to 20 minutes to cool down and come down to minimum nodes which will be 2 which we configured during nodegroup creation
+- It might take 5 to 20 minutes to cool down and come down to minimum nodes which we configured during nodegroup creation
 ```
 # Scale down the demo application to 1 pod
 kubectl scale --replicas=1 deploy ca-app-deployment
