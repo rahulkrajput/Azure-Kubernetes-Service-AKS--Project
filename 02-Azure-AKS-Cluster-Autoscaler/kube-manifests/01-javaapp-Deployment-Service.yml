@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ca-demoapp-deployment
+  labels:
+    app: ca-java-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ca-java-app
+  template:
+    metadata:
+      labels:
+        app: ca-java-app
+    spec:
+      containers:
+      - name: ca-java-app
+        image: rahulkrajput/kubernetes:helloworld-v1
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "250m"
+          limits:
+            memory: "500Mi"
+            cpu: "500m"                  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ca-demoservice-java-app
+  labels:
+    app: ca-java-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: ca-java-app
+  ports:
+  - port: 80
+    targetPort: 8080   
