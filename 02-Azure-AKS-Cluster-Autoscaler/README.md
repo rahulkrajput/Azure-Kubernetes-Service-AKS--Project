@@ -101,7 +101,11 @@ kubectl get nodes -o wide
 kubectl delete -f kube-manifests/
 
 ```
+## Notes
 
+- **Make sure to replace placeholders (e.g., your-Paid-Subscription, your_cluster_name, your_region, your_resource_group_name...etc) with your actual Configuration.**
+
+- **This is a basic setup for demonstration purposes. In a production environment, you should follow best practices for security and performance.**
 
 ## References
 - [Azure AKS Cluster Autoscaler](https://docs.microsoft.com/en-us/azure/aks/cluster-autoscaler)
