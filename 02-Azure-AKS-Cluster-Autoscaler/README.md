@@ -8,6 +8,8 @@
 
 ![Azure-AKS-Cluster-AutoScaler](C:\Users\SUPER-MAN\Downloads\Azure-AKS-Cluster-AutoScaler.svg)
 
+![Azure-AKS-Cluster-AutoScaler](C:\Users\SUPER-MAN\Downloads\Azure AKS AutoScaler.png)
+
 ## Step-02: Create Cluster with Cluster Autoscaler Enabled
 ```
 # Setup Environment Variables
