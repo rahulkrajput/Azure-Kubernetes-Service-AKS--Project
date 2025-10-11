@@ -112,7 +112,9 @@ kubectl delete -R -f kube-manifests/
 
 
 ```
+## Notes
 
+- **This is a basic setup for demonstration purposes. In a production environment, you should follow best practices for security and performance.**
 
 ## Referencess
 - [Azure AKS - Horizontal Pod Autoscaler](https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-scale#autoscale-pods)
