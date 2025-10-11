@@ -1,21 +1,18 @@
 # Azure AKS - Horizontal Pod Autoscaling (HPA)
 
-## Step-01: Introduction
-- What is Horizontal Pod Autoscaling?
+## Brief Intro
 - How HPA Works?
-- How HPA configured?
-- Metrics Server
+- How is HPA configured?
 
 
-[![Image](https://stacksimplify.com/course-images/azure-kubernetes-service-autoscaling-hpa-1.png "Azure AKS Kubernetes - Masterclass")](https://stacksimplify.com/course-images/azure-kubernetes-service-autoscaling-hpa-1.png)
+![Image](https://github.com/user-attachments/assets/5d67cab7-ac62-4d0f-8379-dd5acd8e7371)
 
-[![Image](https://stacksimplify.com/course-images/azure-kubernetes-service-autoscaling-hpa-2.png "Azure AKS Kubernetes - Masterclass")](https://stacksimplify.com/course-images/azure-kubernetes-service-autoscaling-hpa-2.png)
+<img width="773" height="503" alt="Image" src="https://github.com/user-attachments/assets/65d2af3b-a1ed-4156-bcd5-94df2dfd6cd0" />
 
-
-## Step-02: Review Deploy our Application
+## Step-01: Review Deploy our Application
 ```
 # Deploy
-kubectl apply -f kube-manifests/apps
+kubectl apply -f kube-manifests/application
 
 # List Pods, Deploy & Service
 kubectl get pod
@@ -25,95 +22,95 @@ kubect get svc
 http://<PublicIP-from-Get-SVC-Output>
 ```
 
-## Step-03: Create a Horizontal Pod Autoscaler resource for the "hpa-demo-deployment" 
+## Step-02: Create a Horizontal Pod Autoscaler resource for the Deployment
 - This command creates an autoscaler that targets 20 percent CPU utilization for the deployment, with a minimum of one pod and a maximum of ten pods. 
 - When the average CPU load is below 20 percent, the autoscaler tries to reduce the number of pods in the deployment, to a minimum of one. 
 - When the load is greater than 20 percent, the autoscaler tries to increase the number of pods in the deployment, up to a maximum of ten
 ```
-# HPA Imperative - Template
-kubectl autoscale deployment <deployment-name> --cpu-percent=20 --min=1 --max=10
+# To achieve the above condition, you can use either the imperative or declarative way. Both produce the same result.
 
-# HPA Imperative - Replace
-kubectl autoscale deployment hpa-demo-deployment --cpu-percent=20 --min=1 --max=10
+# HPA Imperative Way
+kubectl autoscale deployment hpa-deployment --cpu-percent=20 --min=1 --max=10
 
-# HPA Declarative (Optional - If you use above imperative command this is just for reference)
+# Or
+
+# HPA Declarative Way (Optional - If you use above imperative command this is just for reference)
 kubectl apply -f kube-manifests/hpa-manifest/hpa-manifest.yml
 
 # Describe HPA
-kubectl describe hpa/hpa-demo-deployment 
+kubectl describe hpa/hpa-deployment 
 
 # List HPA
-kubectl get horizontalpodautoscaler.autoscaling/hpa-demo-deployment 
+kubectl get horizontalpodautoscaler.autoscaling/hpa-deployment 
 ```
 
-## Step-04: Create the load & Verify how HPA is working
+## Step-03: Create the load & Verify how HPA is working
 ```
 # Generate Load (new Terminal)
-kubectl run apache-bench -i --tty --rm --image=httpd -- ab -n 500000 -c 1000 http://hpa-demo-service-nginx.default.svc.cluster.local/ 
+kubectl run apache-bench -i --tty --rm --image=httpd -- ab -n 500000 -c 1000 http://hpa-service-nginx.default.svc.cluster.local/ 
 
 # List all HPA
 kubectl get hpa
 
 # List specific HPA
-kubectl get hpa hpa-demo-deployment 
+kubectl get hpa hpa-deployment 
 
 # Describe HPA
-kubectl describe hpa/hpa-demo-deployment 
+kubectl describe hpa/hpa-deployment 
 
 # List Pods
 kubectl get pods
 ```
 
-## Step-05: Cooldown / Scaledown
+## Step-04: Cooldown / Scaledown
 - Default cooldown period is 5 minutes. 
 - Once CPU utilization of pods is less than 20%, it will starting terminating pods and will reach to minimum 1 pod as configured.
 
 
-## Step-06: Clean-Up
+## Step-05: Delete Resources
 ```
 # Delete HPA
-kubectl delete hpa hpa-demo-deployment
+kubectl delete hpa hpa-deployment
 
 # Delete Deployment & Service
-kubectl delete -f kube-manifests/apps 
+kubectl delete -f kube-manifests/application 
 ```
+## Declarative Method
 
-## Step-07: Deploy App and HPA Declarative Manifest
+## Step-06: Deploy App and HPA Declarative Manifest
 ```
 # Deploy App
-kubectl apply -f kube-manifests/apps 
+kubectl apply -f kube-manifests/application
 
 # Deploy HPA Manifest
 kubectl apply -f kube-manifests/hpa-manifest
 ```
 
-## Step-08: Create the load & Verify how HPA is working
+## Step-07: Create the load & Verify how HPA is working
 ```
 # Generate Load
-kubectl run apache-bench -i --tty --rm --image=httpd -- ab -n 500000 -c 1000 http://hpa-demo-service-nginx.default.svc.cluster.local/ 
+kubectl run apache-bench -i --tty --rm --image=httpd -- ab -n 500000 -c 1000 http://hpa-service-nginx.default.svc.cluster.local/ 
 
 # List all HPA
 kubectl get hpa
 
 # List specific HPA
-kubectl get hpa hpa-demo-declarative
+kubectl get hpa hpa-declarative-deploy
 
 # Describe HPA
-kubectl describe hpa/hpa-demo-declarative
+kubectl describe hpa/hpa-declarative-deploy
 
 # List Pods
 kubectl get pods
 ```
 
 
-## Step-09: Clean-Up 
+## Step-08: Delete Resources
 ```
 # Delete HPA & Apps
 kubectl delete -R -f kube-manifests/
 
-# Delete Cluster, Resource Group  (Optional)
-echo $RESOURCE_GROUP
-az group delete -n ${RESOURCE_GROUP}
+
 ```
 
 
