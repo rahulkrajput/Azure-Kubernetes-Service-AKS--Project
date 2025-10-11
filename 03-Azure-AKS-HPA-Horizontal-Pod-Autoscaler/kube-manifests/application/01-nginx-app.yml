@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hpa-demo-deployment
+  name: hpa-deployment
   labels:
     app: hpa-nginx
 spec:
@@ -30,7 +30,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: hpa-demo-service-nginx
+  name: hpa-service-nginx
   labels:
     app: hpa-nginx
 spec:
