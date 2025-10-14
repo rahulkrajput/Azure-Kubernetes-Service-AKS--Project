@@ -1,4 +1,4 @@
-# Azure AKS - Horizontal Pod Autoscaling (HPA)
+# Azure AKS - Horizontal Pod Autoscaling (HPA), Rolling updates and Rollbacks
 
 ## Brief Intro
 - How HPA Works?
@@ -66,6 +66,40 @@ kubectl get pods
 - Default cooldown period is 5 minutes. 
 - Once CPU utilization of pods is less than 20%, it will starting terminating pods and will reach to minimum 1 pod as configured.
 
+## Updating applications
+Kubernetes facilitates seamless updates to your applications through rolling updates, ensuring zero downtime during updates.
+
+Rolling updates and rollbacks
+
+ a. Update the deployment:
+
+  - Set a new image version:
+```
+kubectl set image deployment/hpa-deployment hpa-nginx=rahulkrajput/kubernetes:nginx-v4
+```
+This command updates the deployment to use a new version of the image (v4). Kubernetes gradually replaces old pods with new ones, maintaining service availability.
+
+b. Monitor the update:
+
+- Check the rollout status:
+```
+kubectl rollout status deployment/hpa-deployment
+```
+
+This command shows the progress of the rolling update, indicating when the update is complete and highlighting any issues.
+
+c. Rollback if needed:
+
+- Undo the deployment update:
+
+```
+kubectl rollout undo deployment/hpa-deployment
+```
+This command reverts the deployment to the previous version if issues arise during the update, ensuring application stability.
+
+d. Verify the new version:
+
+- Access the application: Open the service URL in your web browser to verify the changes. You should see the new version running, confirming a successful update.
 
 ## Step-05: Delete Resources
 ```
