@@ -9,6 +9,9 @@
 
 <img width="773" height="503" alt="Image" src="https://github.com/user-attachments/assets/65d2af3b-a1ed-4156-bcd5-94df2dfd6cd0" />
 
+
+<img width="1024" height="554" alt="Image" src="https://github.com/user-attachments/assets/a6374048-8575-493f-878b-9dfad6e7e78d" />
+
 ## Step-01: Review Deploy our Application
 ```
 # Deploy
