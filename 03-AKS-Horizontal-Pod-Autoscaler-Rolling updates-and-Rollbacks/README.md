@@ -9,6 +9,7 @@
 
 <img width="773" height="503" alt="Image" src="https://github.com/user-attachments/assets/a6dab7b3-4b59-4b27-a633-cbb5d6180dcc" />
 
+![Image](https://github.com/user-attachments/assets/cda79994-5604-4a01-9d9e-ca335c4984fd)
 
 ## Step-01: Review Deploy our Application
 ```
