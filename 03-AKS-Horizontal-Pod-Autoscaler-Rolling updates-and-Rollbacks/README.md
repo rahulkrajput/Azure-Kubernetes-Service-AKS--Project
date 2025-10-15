@@ -4,21 +4,11 @@
 - How HPA Works?
 - How is HPA configured?
 
-
-![Image](https://github.com/user-attachments/assets/5d67cab7-ac62-4d0f-8379-dd5acd8e7371)
-
-<img width="773" height="503" alt="Image" src="https://github.com/user-attachments/assets/65d2af3b-a1ed-4156-bcd5-94df2dfd6cd0" />
-
-
-<img width="1024" height="554" alt="Image" src="https://github.com/user-attachments/assets/a6374048-8575-493f-878b-9dfad6e7e78d" />
-
-
-
-![Image](https://github.com/user-attachments/assets/ac8225ac-8427-4f98-aaa4-660125ccb08f)
-
-
-
 ![Image](https://github.com/user-attachments/assets/029d346d-fe6e-4771-a191-a2d0269de082)
+
+
+<img width="773" height="503" alt="Image" src="https://github.com/user-attachments/assets/a6dab7b3-4b59-4b27-a633-cbb5d6180dcc" />
+
 
 ## Step-01: Review Deploy our Application
 ```
