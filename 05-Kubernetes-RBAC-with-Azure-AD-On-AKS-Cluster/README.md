@@ -1,30 +1,19 @@
----
-title: Kubernetes RBAC Role & Role Binding with Azure AD on AKS
-description: Restrict Access to k8s namespace level resources using Kubernetes RBAC Role and Role Binding with Azure AD
----
+
 # Kubernetes RBAC Role & Role Binding with Azure AD on AKS
 
-## Step-01: Introduction
-- AKS can be configured to use Azure AD for Authentication which we have seen in our previous section
-- In addition, we can also configure Kubernetes role-based access control (RBAC) to limit access to cluster resources based a user's identity or group membership.
-- Understand about Kubernetes RBAC Role & Role Binding
+<img width="1024" height="554" alt="Image" src="https://github.com/user-attachments/assets/c2b40c76-3fa4-4360-a995-266a6d0b2a5c" />
+
+## Brief Intro
+- AKS can be configured to use Azure AD for Authentication.
+- we can configure Kubernetes role-based access control (RBAC) to limit access to cluster resources based a user's identity or group membership.
 
 
-[![Image](https://stacksimplify.com/course-images/azure-kubernetes-service-RBAC-2.png "Azure AKS Kubernetes - Masterclass")](https://stacksimplify.com/course-images/azure-kubernetes-service-RBAC-2.png)
-
-[![Image](https://stacksimplify.com/course-images/azure-kubernetes-service-RBAC-1.png "Azure AKS Kubernetes - Masterclass")](https://stacksimplify.com/course-images/azure-kubernetes-service-RBAC-1.png)
-
-
-[![Image](https://stacksimplify.com/course-images/azure-kubernetes-service-RBAC-Role-RoleBinding-1.png "Azure AKS Kubernetes - Masterclass")](https://stacksimplify.com/course-images/azure-kubernetes-service-RBAC-Role-RoleBinding-1.png)
-
-[![Image](https://stacksimplify.com/course-images/azure-kubernetes-service-RBAC-Role-RoleBinding-2.png "Azure AKS Kubernetes - Masterclass")](https://stacksimplify.com/course-images/azure-kubernetes-service-RBAC-Role-RoleBinding-2.png)
-
-[![Image](https://stacksimplify.com/course-images/azure-kubernetes-service-RBAC-Role-RoleBinding-3.png "Azure AKS Kubernetes - Masterclass")](https://stacksimplify.com/course-images/azure-kubernetes-service-RBAC-Role-RoleBinding-3.png)
-
-## Step-02: Create a Namespace Dev, QA and Deploy Sample Application
+## Step-01: Create a Namespace Dev, QA and Deploy Sample Application
 ```
+Here, we are creating two namespaces to check if a user of the Dev namespace group will access the resource of the QA namespace or not, or, while trying to access it, what kind of message or error appears.
+
 # Configure Command Line Credentials for kubectl
-az aks get-credentials --name aksdemo3 --resource-group aks-rg3 --admin
+az aks get-credentials --name aks-cluster --resource-group aks-rg --admin
 
 # View Cluster Info
 kubectl cluster-info
@@ -37,26 +26,26 @@ kubectl create namespace qa
 kubectl get namespaces
 
 # Deploy Sample Application
-kubectl apply -f kube-manifests/01-Sample-Application -n dev
-kubectl apply -f kube-manifests/01-Sample-Application -n qa
+kubectl apply -f kube-manifests/01-Application -n dev
+kubectl apply -f kube-manifests/01-Application -n qa
 
 # Access Dev Application
 kubectl get svc -n dev
-http://<public-ip>/app1/index.html
+http://<public-ip>/
 
-# Access Dev Application
+# Access QA Application
 kubectl get svc -n qa
-http://<public-ip>/app1/index.html
+http://<public-ip>/
 ```
 
-## Step-03: Create AD Group, Role Assignment and User for Dev 
+## Step-02: Create AD Group, Role Assignment and User for Dev 
 ```
 # Get Azure AKS Cluster Id
-AKS_CLUSTER_ID=$(az aks show --resource-group aks-rg3 --name aksdemo3 --query id -o tsv)
+AKS_CLUSTER_ID=$(az aks show --resource-group aks-rg --name aks-cluster --query id -o tsv)
 echo $AKS_CLUSTER_ID
 
 # Create Azure AD Group
-DEV_AKS_GROUP_ID=$(az ad group create --display-name devaksteam --mail-nickname devaksteam --query objectId -o tsv)    
+DEV_AKS_GROUP_ID=$(az ad group create --display-name devaksgroup --mail-nickname devaksgroup --query objectId -o tsv)    
 echo $DEV_AKS_GROUP_ID
 
 # Create Role Assignment 
@@ -67,54 +56,38 @@ az role assignment create \
 
 # Create Dev User
 DEV_AKS_USER_OBJECT_ID=$(az ad user create \
-  --display-name "AKS Dev1" \
-  --user-principal-name aksdev1@stacksimplifygmail.onmicrosoft.com \
-  --password @AKSDemo123 \
+  --display-name "dev user01" \
+  --user-principal-name devuser01@xyz.onmicrosoft.com \
+  --password %kubeaks123 \
   --query objectId -o tsv)
 echo $DEV_AKS_USER_OBJECT_ID  
 
 # Associate Dev User to Dev AKS Group
-az ad group member add --group devaksteam --member-id $DEV_AKS_USER_OBJECT_ID
+az ad group member add --group devaksgroup --member-id $DEV_AKS_USER_OBJECT_ID
 ```
 
-## Step-04: Test Dev User Authentication to Portal
+## Step-03: Test Dev User Authentication to Portal
 - URL: https://portal.azure.com
-- Username: aksdev1@stacksimplifygmail.onmicrosoft.com
-- Password: @AKSDemo123
+- Username: devuser01@xyz.onmicrosoft.com
+- Password: %kubeaks123
 
 
-## Step-05: Review Kubernetes RBAC Role & Role Binding
-### Kubernetes RBAC Role for Dev Namespace
-- **File Name:** role-dev-namespace.yaml
-```yaml
-kind: Role
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: dev-user-full-access-role
-  namespace: dev
-rules:
-- apiGroups: ["", "extensions", "apps"]
-  resources: ["*"]
-  verbs: ["*"]
-- apiGroups: ["batch"]
-  resources:
-  - jobs
-  - cronjobs
-  verbs: ["*"]
+## Step-04: Update Kubernetes RBAC Role Binding
+
 ```
-### Get Object Id for devaksteam AD Group
+### Get Object Id for devaksgroup AD Group
 ```
-# Get Object ID for AD Group devaksteam
-az ad group show --group devaksteam --query objectId -o tsv
+# Get Object ID for AD Group devaksgroup
+az ad group show --group devaksgroup --query objectId -o tsv
 
 # Output
-e6dcdae4-e9ff-4261-81e6-0d08537c4cf8
+c5804cf8-e9ff-1624-18e6-0d73e6dcdae4
 ```
 
-[![Image](https://stacksimplify.com/course-images/azure-kubernetes-service-RBAC-Role.png "Azure AKS Kubernetes - Masterclass")](https://stacksimplify.com/course-images/azure-kubernetes-service-RBAC-Role.png)
 
-### Review & Update Kubernetes RBAC Role Binding for Dev Namespace
-- Update Azure AD Group **devaksteam** Object ID in Role Binding
+
+### Update Kubernetes RBAC Role Binding for Dev Namespace
+- Update Azure AD Group **devaksgroup** Object ID in Role Binding
 - **File Name:** rolebinding-dev-namespace.yaml
 ```yaml
 kind: RoleBinding
@@ -130,16 +103,13 @@ subjects:
 - kind: Group
   namespace: dev
   #name: groupObjectId
-  name: "e6dcdae4-e9ff-4261-81e6-0d08537c4cf8"  
+  name: "c5804cf8-e9ff-1624-18e6-0d73e6dcdae4"  
 ```
 
-[![Image](https://stacksimplify.com/course-images/azure-kubernetes-service-RBAC-RoleBinding.png "Azure AKS Kubernetes - Masterclass")](https://stacksimplify.com/course-images/azure-kubernetes-service-RBAC-RoleBinding.png)
-
-
-## Step-06: Create Kubernetes RBAC Role & Role Binding for Dev Namespace
+## Step-05: Create Kubernetes RBAC Role & Role Binding for Dev Namespace
 ```
 # As AKS Cluster Admin (--admin)
-az aks get-credentials --resource-group aks-rg3 --name aksdemo3 --admin
+az aks get-credentials --resource-group aks-rg --name aks-cluster --admin
 
 # Create Kubernetes Role and Role Binding
 kubectl apply -f kube-manifests/02-Roles-and-RoleBindings
@@ -149,17 +119,17 @@ kubectl get role -n dev
 kubectl get rolebinding -n dev
 ```
 
-## Step-07: Access Dev Namespace using aksdev1 AD User
+## Step-06: Access Dev Namespace using devuser01 AD User
 ```
 # Overwrite kubectl credentials
-az aks get-credentials --resource-group aks-rg3 --name aksdemo3 --overwrite-existing
+az aks get-credentials --resource-group aks-rg --name aks-cluster --overwrite-existing
 
 # List Pods 
 kubectl get pods -n dev
 - URL: https://microsoft.com/devicelogin
-- Code: GLUQPEQ2N (Sample)(View on terminal)
-- Username: aksdev1@stacksimplifygmail.onmicrosoft.com
-- Password: @AKSDemo123
+- Code: Q2NGLUQPE (Sample)(View on terminal)
+- Username: devuser01@xyz.onmicrosoft.com
+- Password: %kubeaks123
 
 # List Services from Dev Namespace
 kubectl get svc -n dev
@@ -168,12 +138,11 @@ kubectl get svc -n dev
 kubectl get svc -n qa
 
 # Forbidden Message should come when we list QA Namespace resources
-Error from server (Forbidden): services is forbidden: User "aksdev1@stacksimplifygmail.onmicrosoft.com" cannot list resource "services" in API group "" in the namespace "qa"
+Error from server (Forbidden): services is forbidden: User "devuser01@xyz.onmicrosoft.com" cannot list resource "services" in API group "" in the namespace "qa"
 ```
 
-## Step-08: Clean-Up
+## Step-07: Delete Resources
 ```
-# Clean-Up Apps
 kubectl delete ns dev
 kubectl delete ns qa
 ```

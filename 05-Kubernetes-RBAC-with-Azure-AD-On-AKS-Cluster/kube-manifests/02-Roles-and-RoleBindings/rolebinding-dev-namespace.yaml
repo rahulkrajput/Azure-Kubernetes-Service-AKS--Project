@@ -10,5 +10,5 @@ roleRef:
 subjects:
 - kind: Group
   namespace: dev
-  #name: groupObjectId # Your Azure AD Group Object ID: devaksteam
-  name: "4123d819-9ed6-460b-8321-39f02157536b"  
+  #name: groupObjectId 
+  name: "c5804cf8-e9ff-1624-18e6-0d73e6dcdae4"  
