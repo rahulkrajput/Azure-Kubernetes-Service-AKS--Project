@@ -28,10 +28,6 @@ kubectl cluster-info
 - **Important Note-2:** non-RBAC enabled clusters aren't supported for AKS-managed Azure AD integration
 - **Important Note-3:** Changing the Azure AD tenant associated with AKS-managed Azure AD integration isn't supported
 
-
-
-
-
 ## Step-01: Create Azure AD Group and User in Azure AD 
 ### Create Azure AD Group 
 - Group Type: security 
