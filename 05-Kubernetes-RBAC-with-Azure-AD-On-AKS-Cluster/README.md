@@ -74,7 +74,7 @@ az ad group member add --group devaksgroup --member-id $DEV_AKS_USER_OBJECT_ID
 
 ## Step-04: Update Kubernetes RBAC Role Binding
 
-```
+
 ### Get Object Id for devaksgroup AD Group
 ```
 # Get Object ID for AD Group devaksgroup
