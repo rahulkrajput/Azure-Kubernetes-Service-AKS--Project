@@ -1,5 +1,7 @@
 # Azure AD Integration Authentication for AKS Cluster 
 
+![Image](https://github.com/user-attachments/assets/cacc5283-65ee-44a4-87d8-974d30c2e212)
+
 ## Pre-requisites
 - We should have Azure AKS Cluster Up and Running.
 ```
@@ -26,7 +28,7 @@ kubectl cluster-info
 - **Important Note-2:** non-RBAC enabled clusters aren't supported for AKS-managed Azure AD integration
 - **Important Note-3:** Changing the Azure AD tenant associated with AKS-managed Azure AD integration isn't supported
 
-![Image](https://github.com/user-attachments/assets/cacc5283-65ee-44a4-87d8-974d30c2e212)
+
 
 
 
