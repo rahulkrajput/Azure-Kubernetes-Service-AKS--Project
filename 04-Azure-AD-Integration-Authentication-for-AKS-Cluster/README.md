@@ -1,9 +1,4 @@
----
-title: Azure AD Integration with Azure AKS for Authentication
-description: Azure Active Directory Integration with Azure Kubernetes Service Cluster Admins 
----
-
-# Azure AD Authentication for AKS Cluster Admins
+# Azure AD Integration Authentication for AKS Cluster 
 
 ## Pre-requisites
 - We should have Azure AKS Cluster Up and Running.
@@ -23,7 +18,7 @@ kubectl get nodes -o wide
 kubectl cluster-info
 ```
 
-## Breif Intro
+## Brief Intro
 - We can use Azure AD Users and Groups to Manage AKS Clusters
 - We can create Admin Users in Azure AD and Associate to Azure AD Group named `kubeadmin` and those users can access Azure AKS Cluster using kubectl. 
 - [Three important things](https://docs.microsoft.com/en-us/azure/aks/managed-aad#limitations) we need to remember before making any changes to our existing AKS Clusters
